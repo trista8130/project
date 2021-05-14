@@ -1,0 +1,17 @@
+.header {
+  text-align: center;
+  margin: 50px;
+}
+
+.cards {
+  padding: 0 100px;
+  display: flex;
+  justify-content: center;
+  flex-flow: wrap;
+  gap: 50px;
+  &__box {
+    img {
+      width: 100px;
+    }
+  }
+}
