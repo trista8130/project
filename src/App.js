@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import cardList from "./cardList";
+import { randomArr } from "./fn";
 
 function App() {
+  const [playList, setPlayList] = useState(null);
+  console.log(randomArr(6, cardList));
+
+  useEffect(() => {
+    const res = randomArr(6, cardList);
+    setPlayList(res);
+  }, []);
+  console.log(playList);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      123
+      {playList &&
+        playList.map((card, i) => (
+          <div key={i}>
+            <div>{card.num}</div>
+            <div>{card.color}</div>
+          </div>
+        ))}
     </div>
   );
 }
