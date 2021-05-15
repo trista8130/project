@@ -7,33 +7,41 @@ function App() {
   const [playList, setPlayList] = useState(null);
   const [showList, setShowList] = useState([]);
   const [pairList, setPairList] = useState([]);
+  const [win, setWin] = useState(false);
+  const [reset, setReset] = useState(false);
 
   useEffect(() => {
     const res = randomArr(4, cardList); //set amount
     setPlayList(res);
     const list = new Array(4 * 2).fill(false);
     setShowList(list);
-  }, []);
+  }, [reset]);
   useEffect(() => {
     if (pairList && pairList.length === 2) {
       console.log(pairList[1].num);
       let firstCard = pairList[0];
       let secondCard = pairList[1];
       if (firstCard.num !== secondCard.num) {
-        setPairList([]);
-        console.log(showList);
-        showList[firstCard.i] = false;
-        // setTimeout({showList[secondCard.i] = false},200)
-       showList[secondCard.i] = false;
-        setShowList([...showList]);
+        function resetShow() {
+          showList[firstCard.i] = false;
+          showList[secondCard.i] = false;
+          setShowList([...showList]);
+        }
+
+        setTimeout(resetShow, 500);
       }
-    
-      //console.log(pairList);
+      setPairList([]);
+    }
+    //console.log(showList);
+    let checkWin = [...showList];
+    const res = checkWin.filter((ele) => ele == true);
+    if (res.length == 4 * 2) {
+      //use set amount
+      setWin(true);
     }
   }, [pairList]);
-  console.log(showList);
+
   const handleClick = (i, num) => {
-    console.log(i);
     showList[i] = true;
     setShowList([...showList]);
 
@@ -41,18 +49,23 @@ function App() {
       pairList.push({ i, num });
       setPairList([...pairList]);
     }
-    //console.log(showList);
-    //console.log(pairList);
+  };
+  const handleHide = () => {
+    setWin(false);
+    setReset(!reset);
   };
 
+  const handleReset = () => {
+    setReset(!reset);
+  };
+  console.log(reset);
   return (
     <div>
       <div className="header">
-        <h1>Flip cards game</h1>
+        <h1>Flip Cards Game</h1>
         <br></br>
-        <h3>Please enter cards amount you would like to play!</h3>
-        <input></input>
-        <p>You can only choose amount from 1 to 13!</p>
+
+        <button onClick={handleReset}>RESET</button>
       </div>
       <div className="cards">
         {playList &&
@@ -64,14 +77,25 @@ function App() {
                 onClick={() => handleClick(i, card.num)}
               >
                 {showList[i] ? (
-                  <img src={card.img} alt="card"></img>
+                  <div className="cards__box__back">
+                    <img src={card.img} alt="card"></img>
+                  </div>
                 ) : (
-                  <img src={bg} alt="bg"></img>
+                  <div className="cards__box__front">
+                    <img src={bg} alt="bg"></img>
+                  </div>
                 )}
               </div>
             );
           })}
       </div>
+      {win && (
+        <div className="win" onClick={handleHide}>
+          <div className="win__box">
+            <p>YOU WIN!</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

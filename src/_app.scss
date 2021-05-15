@@ -15,3 +15,26 @@
     }
   }
 }
+.win {
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eee;
+  opacity: 0.8;
+  &__box {
+    width: 200px;
+    height: 100px;
+    background: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      font-size: 3rem;
+    }
+  }
+}
